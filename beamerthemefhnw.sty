@@ -1,0 +1,220 @@
+%----------------------------------------------------------------------
+%% beamerthemefhnw.sty
+%% Copyright 2020 Stefan Schmid
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Stefan Schmid <stefan.schmid@fhnw.ch>.
+%
+% This work consists of this file only.
+%----------------------------------------------------------------------
+
+
+\mode<presentation>
+
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{ifthen}
+
+\usepackage{textpos}
+
+\def\beamer@titlepageimg{}
+\DeclareOptionBeamer{titlepageimg}{\def\beamer@titlepageimg{#1}}
+\ProcessOptionsBeamer
+% default logo will be the German version
+\def\fhnwlogo{fhnw_habg_10mm}%
+
+
+%%%%%  Title page frame %%%%%
+\setbeamertemplate{title page}
+{
+    \begin{tikzpicture}[remember picture,overlay]
+		\node[%
+			xshift=\logoxshift,yshift=-\logoyshift,%
+			anchor=north west,%
+			inner sep=0pt%
+			] (img) at (current page.north west) {%
+			\includegraphics[height=\logoheight]{\fhnwlogo}};
+    \end{tikzpicture}
+    \begin{textblock*}{\beamer@title@block@width}(-1.12cm,\beamer@title@block@pos)
+        \begin{beamercolorbox}{titleimageplaceholder}
+          \usebeamerfont{author}
+			 \ifx\beamer@titlepageimg\@empty%
+				\rule{\beamer@title@block@width}{\beamer@title@block@height}%
+			 \else%
+			 	\includeresizecrop{\beamer@title@block@width}{\beamer@title@block@height}{\beamer@titlepageimg}%
+			\fi%
+        \end{beamercolorbox}
+    \end{textblock*}
+    \begin{textblock*}{\beamer@margin}(-\beamer@margin,\beamer@title@staple@pos)
+        \begin{beamercolorbox}{colorstaple}
+          \usebeamerfont{colorstaple}\rule{\beamer@margin}{\beamer@title@staple}%
+        \end{beamercolorbox}
+    \end{textblock*}
+    \begin{textblock*}{12cm}(0pt,1.8cm)
+    \begin{beamercolorbox}[wd=8cm]{title page header}
+      \usebeamerfont{title}\usebeamercolor{title}\inserttitle%
+    \end{beamercolorbox}%
+    \ifx\insertsubtitle\@empty%
+	 	{\usebeamerfont{subtitle}\usebeamercolor{title}\insertshortauthor}%
+    \else%
+		 \vskip0.25ex%
+		 {\usebeamerfont{subtitle}\usebeamercolor{title}\insertsubtitle\par}%
+    \fi%  
+    \end{textblock*}
+}
+
+\setbeamertemplate{headline}{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[%
+			xshift=\logoxshift,yshift=-\logoyshift,
+	 		anchor=north west,
+	 		inner sep=0pt
+			] (img) at (current page.north west) [anchor=north west]{%
+			\includegraphics[height=\logoheight]{\fhnwlogo}};
+	\end{tikzpicture}
+	\leavevmode%
+	\hbox{%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=\headerheight,dp=0pt]{page header}%
+	\end{beamercolorbox}%
+	}%
+	\vskip0pt%
+}
+
+%%%%% General frame %%%%%
+\defbeamertemplate*{frametitle}{decolines theme}[1][left]
+{
+\ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+\@tempdima=\textwidth%
+\advance\@tempdima by\beamer@margin%
+\advance\@tempdima by\beamer@margin%
+\vbox{}\vskip-.9\beamer@margin%
+\begin{beamercolorbox}[sep=\beamer@margin,#1,wd=\the\@tempdima]{}
+    \usebeamerfont{frametitle}\usebeamercolor[bg]{framesubtitle}%
+    \vbox{}\vskip0ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    {%
+    \ifx\insertframesubtitle\@empty%
+    \else%
+    	{\usebeamerfont{framesubtitle}\usebeamercolor[bg]{framesubtitle}\insertframesubtitle\strut\par}%
+    \fi}%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-\beamer@margin\fi
+    \end{beamercolorbox}%
+\vskip-.5\beamer@margin%
+}
+
+
+%%%%% Footer %%%%%
+\defbeamertemplate*{footline}{decolines theme}
+{
+%TODO right height
+		\begin{beamercolorbox}[wd=\beamer@textwidth,ht=2pt,dp=1ex,leftskip=\beamer@margin]{title in head/foot}%
+    		\usebeamerfont{footer info}
+			\rule{\beamer@textwidth}{1dd}
+			\setlength{\tabcolsep}{0pt}
+			\renewcommand{\arraystretch}{1.2}
+			\begin{tabular}{
+				p{0.7\beamer@textwidth}%
+				>{\raggedleft\arraybackslash}p{0.18\beamer@textwidth}%
+				>{\raggedleft\arraybackslash}p{0.12\beamer@textwidth}%
+				}
+				\insertinstitute	&	\insertdate	&	\insertframenumber
+			\end{tabular}
+		\end{beamercolorbox}%
+      \vskip5pt%
+}
+
+%%%%% Language options %%%%%
+\AtBeginDocument{
+	\@ifpackagewith{babel}{english}{%
+		\def\fhnwlogo{fhnw_habg_en_10mm}%
+	}{}%
+}
+
+
+%%%%%%% Lengths %%%%%%%
+\newlength{\logoheight}		% height of the FHNW logo
+\setlength{\logoheight}{.08\paperheight}
+\newlength{\logoxshift}
+\newlength{\logoyshift}
+\newlength{\logoratio}	% not a true ratio
+\setlength{\logoratio}{1mm * \ratio{\logoheight}{10mm}}
+\setlength{\logoxshift}{\dimexpr 0.07\paperwidth  - 7\logoratio\relax}
+\setlength{\logoyshift}{5\logoratio}
+% 'block' describes the block covered by the picture on the
+% titlepage, if present, otherwise the colored block
+\newlength{\beamer@title@block@height}
+\setlength{\beamer@title@block@height}{.55\paperheight}
+\newlength{\beamer@title@block@width}
+\setlength{\beamer@title@block@width}{.93\paperwidth}
+\newlength{\beamer@title@block@pos}
+\setlength{\beamer@title@block@pos}{.36\paperheight}
+\newlength{\beamer@title@staple}
+\setlength{\beamer@title@staple}{.74\beamer@title@block@height}
+\newlength{\beamer@title@staple@pos}
+\setlength{\beamer@title@staple@pos}{\dimexpr\beamer@title@block@pos + .13\beamer@title@block@height\relax}
+\newlength{\beamer@margin}
+\setlength{\beamer@margin}{.07\paperwidth}
+\newlength{\beamer@textwidth}
+\setlength{\beamer@textwidth}{\dimexpr\paperwidth - 2\beamer@margin\relax}
+\setbeamersize{text margin left=\beamer@margin}
+\setbeamersize{text margin right=\beamer@margin}
+\newlength{\headerheight}
+\setlength{\headerheight}{.15\paperheight}
+
+%%%%%%% Colors %%%%%%%
+\definecolor{fhnwyellow}{RGB}{253,231,14}	% FHNW yellow
+\definecolor{bcolor}{RGB}{187,224,227} % Color of backup figure on title page
+\setbeamercolor*{title page header}{parent=white}
+\setbeamercolor*{frametitle}{bg=black,fg=black}
+\setbeamercolor{footline}{fg=white, bg=black}
+\setbeamercolor*{titleimageplaceholder}{fg=bcolor}
+\setbeamercolor{colorstaple}{fg=fhnwyellow,bg=}
+
+
+%%%%% Fonts %%%%%
+\setbeamerfont{title}{series=\bfseries}
+\setbeamerfont{footer info}{series=\mdseries,size={\fontsize{5pt}{6}}}
+
+%%%%% Misc %%%%%
+% Turn off navigation symbols.
+\beamertemplatenavigationsymbolsempty
+% Possibility to add an email address
+\newcommand*{\email}[1]{\ifdefined\email \def\insertemail{#1}\fi}
+% lengths for includeresizecrop function
+\newlength{\orgheight}
+\newlength{\orgwidth}
+\newlength{\scaleheight}
+\newlength{\cropheight}
+% resizes, crops and includes the figure to match given width and height
+\newcommand\includeresizecrop[3]{% width, height, image
+  \settototalheight{\orgheight}{\includegraphics{#3}}%
+  \settowidth{\orgwidth}{\includegraphics{#3}}%
+  \setlength{\scaleheight}{\orgheight * \ratio{#1}{\orgwidth}}
+  \ifthenelse{\lengthtest{\scaleheight < #2}}{
+    \includegraphics[width=#1]{#3}%
+  }{%
+    \setlength{\cropheight}{(\scaleheight-#2)*\ratio{\orgwidth}{#1}}%
+    \includegraphics[width=#1,clip,trim=0 \cropheight{} 0 0]{#3}%
+  }%
+}
+
+
+
+\mode<all>
+
+
