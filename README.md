@@ -1,4 +1,4 @@
-# Style file for LaTex presentations from the School of Architecture, Civil Engineering and Geomatics at the University of Applied Sciences and Arts Northwestern Switzerland
+# Style file for LaTeX presentations from University of Applied Sciences and Arts Northwestern Switzerland
 
 ## Information
 This is a LaTeX .sty file for presentations from the Institute of Geomatics
