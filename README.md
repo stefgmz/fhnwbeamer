@@ -16,3 +16,6 @@ The language of the letter depends on the language which is loaded
 with the babel package. If both, English and German, are loaded,
 then the language will default to German.
 
+## TODO
+- [ ] Include different institutes
+- [ ] More schools
