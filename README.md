@@ -11,6 +11,10 @@ page. (This includes logo, margins, footer, page number, ...)
 - Personal website: 
 - Website of package: https://github.com/stefgmz/fhnwbeamer
 
+## School options
+The 'school' option sets the right logo. It is necessary to download the required
+logos from https://www.fhnw.ch/de/medien/logos.
+
 ## Language options
 The language of the letter depends on the language which is loaded
 with the babel package. If both, English and German, are loaded,
@@ -18,4 +22,5 @@ then the language will default to German.
 
 ## TODO
 - [ ] Include different institutes
-- [ ] More schools
+- [x] More schools
+- [ ] Case subtitle + author
